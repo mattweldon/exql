@@ -3,7 +3,7 @@
 use Mix.Config
 
 # config :exql, connection: [
-#   host: "** your host goes here **",
+#   hostname: "** your host goes here **",
 #   database: "** your db name goes here **",
 #   username: "** your username goes here **",
 #   password: "** your password goes here **",
