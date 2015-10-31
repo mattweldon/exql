@@ -30,6 +30,13 @@ defmodule Exql.Query do
   end
 
   @doc """
+  Wraps Exql.Sql.contruct/1 and adds resulting SQL to the Query.
+  """
+  def build_sql(query) do
+    %{query | sql: query |> Exql.Sql.construct}
+  end
+
+  @doc """
   Connects to the database, executes the given query and returns the results.
   """
   def execute(query) do
@@ -38,17 +45,4 @@ defmodule Exql.Query do
     |> Exql.Transformer.transform
   end
 
-  @doc """
-  Builds the final sql statement.
-  """
-  defp build_sql(query) do
-    case query do
-      %{criteria: []} ->
-        %{query | sql: "select #{query.scope} from #{query.table}"}
-      _ ->
-        flat_criteria = Enum.join(query.criteria, " and ")
-        %{query | sql: "select #{query.scope} from #{query.table} where #{flat_criteria}"}
-    end
-  end
-  
 end
