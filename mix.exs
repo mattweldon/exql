@@ -1,12 +1,18 @@
 defmodule Exql.Mixfile do
   use Mix.Project
 
+  @version "0.0.2"
+
   def project do
     [app: :exql,
-     version: "0.0.1",
+     version: @version,
      elixir: "~> 1.1",
      description: description,
      package: package,
+     docs: [source_ref: "v#{@version}",
+            main: Exql.Query,
+            source_url: "https://github.com/mattweldon/exql",
+            extras: ["README.md"]],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps]
@@ -29,7 +35,9 @@ defmodule Exql.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:tds, "~> 0.5.1"}]
+    [{:tds, "~> 0.5.1"},
+    {:earmark, "~> 0.1", only: :dev},
+    {:ex_doc, "~> 0.10", only: :dev}]
   end
 
   defp description do
