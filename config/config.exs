@@ -2,6 +2,8 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
+config :exql, downcase_keys: true
+
 # config :exql, connection: [
 #   hostname: "** your host goes here **",
 #   database: "** your db name goes here **",

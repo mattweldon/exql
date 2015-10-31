@@ -34,7 +34,8 @@ defmodule Exql.Transformer do
   def to_map(list, acc \\ %{})
   def to_map([], acc), do: acc
   def to_map([{key, val}|rest], acc) do
-    acc = Map.put(acc, String.to_atom(key), val)
+    key = key |> String.downcase |> String.to_atom
+    acc = Map.put(acc, key, val)
     to_map(rest, acc)
   end
 
