@@ -34,7 +34,7 @@ defmodule Exql.Mixfile do
 
   defp description do
     """
-    A functional query tool for MS Sql Server.
+    A functional query tool for MSSQL.
     """
   end
 
