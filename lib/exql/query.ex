@@ -4,7 +4,7 @@ defmodule Exql.Query do
     sql: nil,
     params: [],
     scope: "",
-    criteria: "",
+    criteria: [],
     table: nil
   ]
 
@@ -26,7 +26,7 @@ defmodule Exql.Query do
   Defines the where clause of your query.
   """
   def filter(query, criteria, params) do
-    %{query | criteria: criteria, params: params} |> build_sql
+    %{query | criteria: query.criteria ++ [criteria], params: query.params ++ params} |> build_sql
   end
 
   def execute(query) do
@@ -41,10 +41,11 @@ defmodule Exql.Query do
   """
   defp build_sql(query) do
     case query do
-      %{criteria: ""} ->
+      %{criteria: []} ->
         %{query | sql: "select #{query.scope} from #{query.table}"}
       _ ->
-        %{query | sql: "select #{query.scope} from #{query.table} where #{query.criteria}"}
+        flat_criteria = Enum.join(query.criteria, " and ")
+        %{query | sql: "select #{query.scope} from #{query.table} where #{flat_criteria}"}
     end
   end
 

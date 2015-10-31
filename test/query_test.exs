@@ -21,6 +21,17 @@ defmodule Exql.QueryTest do
     assert query.params == [id: 1]
   end
 
+  test "build select statement with multiple where clauses" do
+    query =
+      with("people")
+      |> filter("id = @id", [id: 1])
+      |> filter("name = @name", [name: "john"])
+      |> return("*")
+
+    assert query.sql == "select * from people where id = @id and name = @name"
+    assert query.params == [id: 1, name: "john"]
+  end
+
   test "can execute with query struct and return values" do
     results =
       with("people")
