@@ -3,7 +3,7 @@ defmodule Exql.Query do
     pid: nil,
     sql: nil,
     params: [],
-    scope: "",
+    scope: "*",
     criteria: [],
     table: nil
   ]

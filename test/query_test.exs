@@ -6,7 +6,6 @@ defmodule Exql.QueryTest do
   test "build simple select statement" do
     query =
       with("people")
-      |> return("*")
 
     assert query.sql == "select * from people"
   end
@@ -15,7 +14,6 @@ defmodule Exql.QueryTest do
     query =
       with("people")
       |> filter("id = @id", [id: 1])
-      |> return("*")
 
     assert query.sql == "select * from people where id = @id"
     assert query.params == [id: 1]
@@ -26,7 +24,6 @@ defmodule Exql.QueryTest do
       with("people")
       |> filter("id = @id", [id: 1])
       |> filter("name = @name", [name: "john"])
-      |> return("*")
 
     assert query.sql == "select * from people where id = @id and name = @name"
     assert query.params == [id: 1, name: "john"]
@@ -36,14 +33,12 @@ defmodule Exql.QueryTest do
     results =
       with("people")
       |> filter("id = @id", [id: 1])
-      |> return("*")
       |> execute
 
     assert Enum.count(results) == 1
 
     results =
       with("people")
-      |> return("*")
       |> execute
 
     assert Enum.count(results) == 2
