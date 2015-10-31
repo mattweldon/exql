@@ -3,29 +3,24 @@ defmodule Exql.Transformer do
   @doc """
   Transforms a Tds.Result into a list of maps representing the resultset.
   """
-  def transform(results, :all) do
-    case results do
-      {:ok, %Tds.Result{columns: cols, rows: rows}} ->
-        Enum.map(rows, fn(row) ->
-          transform(cols, row)
-        end)
-    end
+  def transform({:ok, %Tds.Result{columns: cols, rows: rows}}, :all) do
+    Enum.map(rows, fn(row) -> transform(cols, row) end)
   end
 
   @doc """
-  Transforms a Tds.Result into a single map representing the relevant part of the resultset.
+  Transforms a Tds.Result into a single map representing the last item in the resultset.
   """
-  def transform(results, rollup) when is_atom(rollup) do
-    case results do
-      {:ok, %Tds.Result{columns: cols, rows: rows}} ->
-        case rollup do
-          :last ->
-            row = List.last(rows)
-          _ ->
-            row = List.first(rows)
-        end
-        transform(cols, row)
-    end
+  def transform({:ok, %Tds.Result{columns: cols, rows: rows}}, :last) do
+    row = List.last(rows)
+    transform(cols, row)
+  end
+
+  @doc """
+  Transforms a Tds.Result into a single map representing the first item in the resultset.
+  """
+  def transform({:ok, %Tds.Result{columns: cols, rows: rows}}, rollup) when is_atom(rollup) do
+    row = List.first(rows)
+    transform(cols, row)
   end
 
   @doc """
