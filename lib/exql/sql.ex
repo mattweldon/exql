@@ -4,7 +4,7 @@ defmodule Exql.Sql do
   """
 
   @doc """
-  Main entrypoint for constructing a full SQL statement from a pipelined Query.
+  Main entry point for constructing a full SQL statement from a pipelined Query.
   """
   def construct(query) do
     "select #{rollup_statement(query)}#{query.scope} from #{query.table}#{where_statement(query)}"
