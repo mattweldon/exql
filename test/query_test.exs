@@ -43,4 +43,46 @@ defmodule Exql.QueryTest do
 
     assert Enum.count(results) == 2
   end
+
+  test "can execute query returning a single result" do
+    query =
+      with("people")
+      |> return_single
+
+    assert query.sql == "select top 1 * from people"
+
+    result = query |> execute
+
+    assert result.id == 2
+    assert result.name == "jane"
+    assert result.email == "jane@bloggs.com"
+  end
+
+  test "can execute query returning the first result in the set" do
+    query =
+      with("people")
+      |> return_first
+
+    assert query.sql == "select * from people"
+
+    result = query |> execute
+
+    assert result.id == 2
+    assert result.name == "jane"
+    assert result.email == "jane@bloggs.com"
+  end
+
+  test "can execute query returning the last result in the set" do
+    query =
+      with("people")
+      |> return_last
+
+    assert query.sql == "select * from people"
+
+    result = query |> execute
+
+    assert result.id == 1
+    assert result.name == "john"
+    assert result.email == "john@doe.com"
+  end
 end

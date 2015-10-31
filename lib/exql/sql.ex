@@ -7,8 +7,14 @@ defmodule Exql.Sql do
   Main entrypoint for constructing a full SQL statement from a pipelined Query.
   """
   def construct(query) do
-    "select #{query.scope} from #{query.table}#{where_statement(query)}"
+    "select #{rollup_statement(query)}#{query.scope} from #{query.table}#{where_statement(query)}"
   end
+
+  @doc """
+  Build the TOP statement from the Query.
+  """
+  def rollup_statement(%{rollup: :single}), do: "top 1 "
+  def rollup_statement(%{rollup: _}), do: ""
 
   @doc """
   Build up a WHERE clause from the Query criteria.
@@ -18,7 +24,5 @@ defmodule Exql.Sql do
     flat_criteria = Enum.join(criteria, " and ")
     " where #{flat_criteria}"
   end
-
-
 
 end

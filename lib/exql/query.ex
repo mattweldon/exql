@@ -4,6 +4,7 @@ defmodule Exql.Query do
     sql: nil,
     params: [],
     scope: "*",
+    rollup: :all,
     criteria: [],
     table: nil
   ]
@@ -16,10 +17,37 @@ defmodule Exql.Query do
   end
 
   @doc """
-  Outlines the columns you wish to return.
+  Specify that you want to return all rows from the query with the given scope.
   """
-  def return(query, columns) do
-    %{query | scope: columns} |> build_sql
+  def return(query, columns \\ "*") do
+    %{query | scope: columns, rollup: :all} |> build_sql
+  end
+
+  @doc """
+  Specify that you want to return a single row from the query with the given scope.
+
+  This will also apply a TOP 1 statement to the resulting SQL statement.
+  """
+  def return_single(query, columns \\ "*") do
+    %{query | scope: columns, rollup: :single} |> build_sql
+  end
+
+  @doc """
+  Specify that you want to return all rows from the query with the given scope.
+
+  This returns the full resultset and picks the first element from the list.
+  """
+  def return_first(query, columns \\ "*") do
+    %{query | scope: columns, rollup: :first} |> build_sql
+  end
+
+  @doc """
+  Specify that you want to return all rows from the query with the given scope.
+
+  This returns the full resultset and picks the last element from the list.
+  """
+  def return_last(query, columns \\ "*") do
+    %{query | scope: columns, rollup: :last} |> build_sql
   end
 
   @doc """
@@ -42,7 +70,6 @@ defmodule Exql.Query do
   def execute(query) do
     Exql.Runner.connect!
     |> Exql.Runner.send_query(query)
-    |> Exql.Transformer.transform
   end
 
 end

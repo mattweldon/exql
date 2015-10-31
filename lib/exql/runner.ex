@@ -12,6 +12,7 @@ defmodule Exql.Runner do
 
   def send_query(conn, query) do
     Tds.Connection.query(conn, query.sql, query.params |> create_params)
+    |> Exql.Transformer.transform(query.rollup)
   end
 
   defp create_params(params) do
