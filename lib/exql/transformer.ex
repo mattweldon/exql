@@ -31,6 +31,9 @@ defmodule Exql.Transformer do
     |> to_map
   end
 
+  @doc """
+  Transforms a list of 2-tuples into a Map where element 1 is the key, and element 2 is the value.
+  """
   def to_map(list, acc \\ %{})
   def to_map([], acc), do: acc
   def to_map([{key, val}|rest], acc) do
