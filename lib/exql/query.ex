@@ -25,18 +25,18 @@ defmodule Exql.Query do
   end
 
   @doc """
-  Specify that you want to return a specific scope from the query, while returing all rows.
+  Specify that you want to return all rows from the query with a given scope.
 
   Example:
 
   ```
   result =
     with("people")
-    |> return("name")
+    |> all("name")
     |> execute
   ```
   """
-  def return(query, columns \\ "*") do
+  def all(query, columns \\ "*") do
     %{query | scope: columns, rollup: :all} |> build_sql
   end
 
@@ -50,11 +50,11 @@ defmodule Exql.Query do
   ```
   result =
     with("people")
-    |> return_single("name")
+    |> single("name")
     |> execute
   ```
   """
-  def return_single(query, columns \\ "*") do
+  def single(query, columns \\ "*") do
     %{query | scope: columns, rollup: :single} |> build_sql
   end
 
@@ -68,11 +68,11 @@ defmodule Exql.Query do
   ```
   result =
     with("people")
-    |> return_first("name")
+    |> first("name")
     |> execute
   ```
   """
-  def return_first(query, columns \\ "*") do
+  def first(query, columns \\ "*") do
     %{query | scope: columns, rollup: :first} |> build_sql
   end
 
@@ -86,11 +86,11 @@ defmodule Exql.Query do
   ```
   result =
     with("people")
-    |> return_last("name")
+    |> last("name")
     |> execute
   ```
   """
-  def return_last(query, columns \\ "*") do
+  def last(query, columns \\ "*") do
     %{query | scope: columns, rollup: :last} |> build_sql
   end
 

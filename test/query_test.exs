@@ -47,7 +47,7 @@ defmodule Exql.QueryTest do
   test "can execute query returning a single result" do
     query =
       with("people")
-      |> return_single
+      |> single
 
     assert query.sql == "select top 1 * from people"
 
@@ -61,7 +61,7 @@ defmodule Exql.QueryTest do
   test "can execute query returning the first result in the set" do
     query =
       with("people")
-      |> return_first
+      |> first
 
     assert query.sql == "select * from people"
 
@@ -75,7 +75,7 @@ defmodule Exql.QueryTest do
   test "can execute query returning the last result in the set" do
     query =
       with("people")
-      |> return_last
+      |> last
 
     assert query.sql == "select * from people"
 
