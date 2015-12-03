@@ -22,7 +22,7 @@ defmodule Exql.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger, :tds]]
   end
 
   # Dependencies can be Hex packages:
