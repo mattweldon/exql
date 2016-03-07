@@ -16,11 +16,11 @@ defmodule Exql.Query do
 
   ```
   result =
-    with("people")
+    with_table("people")
     |> execute
   ```
   """
-  def with(table) do
+  def with_table(table) do
     %Exql.Query{table: table} |> build_sql
   end
 
@@ -31,7 +31,7 @@ defmodule Exql.Query do
 
   ```
   result =
-    with("people")
+    with_table("people")
     |> all("name")
     |> execute
   ```
@@ -49,7 +49,7 @@ defmodule Exql.Query do
 
   ```
   result =
-    with("people")
+    with_table("people")
     |> single("name")
     |> execute
   ```
@@ -67,7 +67,7 @@ defmodule Exql.Query do
 
   ```
   result =
-    with("people")
+    with_table("people")
     |> first("name")
     |> execute
   ```
@@ -85,7 +85,7 @@ defmodule Exql.Query do
 
   ```
   result =
-    with("people")
+    with_table("people")
     |> last("name")
     |> execute
   ```
@@ -101,7 +101,7 @@ defmodule Exql.Query do
 
   ```
   result =
-    with("people")
+    with_table("people")
     |> filter("id = @id", [id: 1])
     |> execute
   ```
@@ -124,7 +124,7 @@ defmodule Exql.Query do
 
   ```
   result =
-    with("people")
+    with_table("people")
     |> execute
   ```
   """

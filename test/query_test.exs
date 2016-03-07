@@ -5,14 +5,14 @@ defmodule Exql.QueryTest do
 
   test "build simple select statement" do
     query =
-      with("people")
+      with_table("people")
 
     assert query.sql == "select * from people"
   end
 
   test "build select statement with a where clause" do
     query =
-      with("people")
+      with_table("people")
       |> filter("id = @id", [id: 1])
 
     assert query.sql == "select * from people where id = @id"
@@ -21,7 +21,7 @@ defmodule Exql.QueryTest do
 
   test "build select statement with multiple where clauses" do
     query =
-      with("people")
+      with_table("people")
       |> filter("id = @id", [id: 1])
       |> filter("name = @name", [name: "john"])
 
@@ -31,14 +31,14 @@ defmodule Exql.QueryTest do
 
   test "can execute with query struct and return values" do
     results =
-      with("people")
+      with_table("people")
       |> filter("id = @id", [id: 1])
       |> execute
 
     assert Enum.count(results) == 1
 
     results =
-      with("people")
+      with_table("people")
       |> execute
 
     assert Enum.count(results) == 2
@@ -46,7 +46,7 @@ defmodule Exql.QueryTest do
 
   test "can execute query returning a single result" do
     query =
-      with("people")
+      with_table("people")
       |> single
 
     assert query.sql == "select top 1 * from people"
@@ -60,7 +60,7 @@ defmodule Exql.QueryTest do
 
   test "can execute query returning the first result in the set" do
     query =
-      with("people")
+      with_table("people")
       |> first
 
     assert query.sql == "select * from people"
@@ -74,7 +74,7 @@ defmodule Exql.QueryTest do
 
   test "can execute query returning the last result in the set" do
     query =
-      with("people")
+      with_table("people")
       |> last
 
     assert query.sql == "select * from people"
