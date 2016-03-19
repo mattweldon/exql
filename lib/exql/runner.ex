@@ -24,7 +24,12 @@ defmodule Exql.Runner do
     |> Exql.Transformer.transform(query.rollup)
   end
 
-  
+  def send_query_without_params(conn, query) do
+    Tds.Connection.query(conn, query.sql, [])
+    |> Exql.Transformer.transform(query.rollup)
+  end
+
+
   defp create_params(params) do
     Enum.map(params, fn({k, v}) ->
       %Tds.Parameter{name: "@#{Atom.to_string(k)}", value: v}
