@@ -111,6 +111,43 @@ defmodule Exql.Query do
   end
 
   @doc """
+  Executes the SQL in a given SQL file without parameters. Specify the scripts directory by setting the `scripts` directive in the config.
+  Pass the file name as an atom, without extension.
+  ```
+  result = sql_file(:simple)
+  """
+  def sql_file(file) do
+    file |> sql_file_command([])
+  end
+
+  @doc """
+  Executes the SQL in a given SQL file with the specified parameters. Specify the scripts
+  directory by setting the `scripts` directive in the config. Pass the file name as an atom,
+  without extension.
+  ```
+  result = sql_file(:save_user, [1])
+  ```
+  """
+  def sql_file(file, params) do
+    file |> sql_file_command(params)
+  end
+
+  @doc """
+  Creates a SQL File command
+  """
+  def sql_file_command(file, params \\ [])
+  def sql_file_command(file, params) when not is_list(params),
+    do: sql_file_command(file, [params])
+
+  def sql_file_command(file, params) do
+    scripts_dir = Application.get_env(:exql, :scripts)
+    file_path = Path.join(scripts_dir, "#{Atom.to_string(file)}.sql")
+    sql = File.read!(file_path)
+
+    %Exql.Query{sql: String.strip(sql), params: params}
+  end
+
+  @doc """
   Wraps Exql.Sql.contruct/1 and adds resulting SQL to the Query.
   """
   def build_sql(query) do
