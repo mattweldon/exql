@@ -24,8 +24,8 @@ defmodule Exql.Runner do
     |> Exql.Transformer.transform(query.rollup)
   end
 
-  def send_query_without_params(conn, query) do
-    Tds.Connection.query(conn, query.sql, [])
+  def send_raw_query(conn, query) do
+    Tds.Connection.query(conn, query.sql, query.params)
     |> Exql.Transformer.transform(query.rollup)
   end
 

@@ -172,7 +172,7 @@ defmodule Exql.Query do
 
   def execute_raw(query) do
     Exql.Runner.connect!
-    |> Exql.Runner.send_query_without_params(query)
+    |> Exql.Runner.send_raw_query(query)
   end
 
 end
