@@ -20,13 +20,23 @@ defmodule Exql.Runner do
   Sends the constructed query to the server and transforms the output into a list of maps representing the resultset.
   """
   def send_query(conn, query) do
-    Tds.Connection.query(conn, query.sql, query.params |> create_params)
-    |> Exql.Transformer.transform(query.rollup)
+    result =
+      Tds.Connection.query(conn, query.sql, query.params |> create_params)
+      |> Exql.Transformer.transform(query.rollup)
+
+    conn |> Tds.Connection.stop
+
+    result
   end
 
   def send_raw_query(conn, query) do
-    Tds.Connection.query(conn, query.sql, query.params)
-    |> Exql.Transformer.transform(query.rollup)
+    result =
+      Tds.Connection.query(conn, query.sql, query.params)
+      |> Exql.Transformer.transform(query.rollup)
+
+    conn |> Tds.Connection.stop
+
+    result
   end
 
 

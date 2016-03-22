@@ -35,9 +35,11 @@ defmodule Exql.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:tds, "~> 0.5.1"},
-    {:earmark, "~> 0.1", only: :dev},
-    {:ex_doc, "~> 0.10", only: :dev}]
+    [
+      {:tds, "~> 0.5.4"},
+      {:earmark, "~> 0.1", only: :dev},
+      {:ex_doc, "~> 0.10", only: :dev}
+    ]
   end
 
   defp description do

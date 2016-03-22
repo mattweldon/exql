@@ -117,7 +117,7 @@ defmodule Exql.Query do
   result = sql_file(:simple)
   """
   def execute_sql_file(file) do
-    file |> sql_file_command([]) |> execute_raw
+    file |> sql_file_command([]) |> execute
   end
 
   @doc """
@@ -129,7 +129,7 @@ defmodule Exql.Query do
   ```
   """
   def execute_sql_file(file, params) do
-    file |> sql_file_command(params) |> execute_raw
+    file |> sql_file_command(params) |> execute
   end
 
   @doc """
@@ -168,11 +168,6 @@ defmodule Exql.Query do
   def execute(query) do
     Exql.Runner.connect!
     |> Exql.Runner.send_query(query)
-  end
-
-  def execute_raw(query) do
-    Exql.Runner.connect!
-    |> Exql.Runner.send_raw_query(query)
   end
 
 end
