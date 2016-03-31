@@ -22,19 +22,23 @@ defmodule Exql.Runner do
   def send_query(conn, query) do
     result =
       Tds.Connection.query(conn, query.sql, query.params |> create_params)
-      |> Exql.Transformer.transform(query.rollup)
+    result = result |> Exql.Transformer.transform(query.rollup)
 
-    conn |> Tds.Connection.stop
-
+    spawn fn ->
+      conn |> Tds.Connection.stop
+    end
+    
     result
   end
 
   def send_raw_query(conn, query) do
     result =
       Tds.Connection.query(conn, query.sql, query.params)
-      |> Exql.Transformer.transform(query.rollup)
+    result = result |> Exql.Transformer.transform(query.rollup)
 
-    conn |> Tds.Connection.stop
+    spawn fn ->
+      conn |> Tds.Connection.stop
+    end
 
     result
   end
